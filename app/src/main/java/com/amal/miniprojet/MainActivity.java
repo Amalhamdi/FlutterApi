@@ -17,6 +17,7 @@ import com.amal.miniprojet.model.Anime;
 import com.amal.miniprojet.model.AnimeListViewModel;
 import com.amal.miniprojet.model.AnimeResponse;
 import com.amal.miniprojet.model.service.AnimeRepoService;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private List<Anime> data;
+    AnimeRepoService animeRepoService;
     private ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -56,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        AnimeRepoService animeRepoService = retrofit.create(AnimeRepoService.class);
+
+
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         listViewAnime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,5 +127,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
     }
 }
